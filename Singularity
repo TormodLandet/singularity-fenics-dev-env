@@ -1,3 +1,3 @@
 Bootstrap: docker
-From: quay.io/fenicsproject/dev-env:latest
-
+From: fenicsproject/dev-env:latest
+Registry: quay.io
