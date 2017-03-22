@@ -14,15 +14,17 @@ From: ubuntu:16.10
     ENV () {
         export "$1"
         echo "export \"$1\"" >> /environment
+        mkdir -p /.singularity/env/
+        echo "export \"$1\"" >> /.singularity/env/XX_fenics.sh
     }
     
     # Main environment variables
-    ENV FENICS_PREFIX="${FENICS_PREFIX:-/fenics}"
-    ENV FENICS_SRC_DIR="${FENICS_SRC_DIR:-/fenics/src}"
+    ENV FENICS_PREFIX="${FENICS_PREFIX:-/opt}"
+    ENV FENICS_SRC_DIR="${FENICS_SRC_DIR:-/opt/src}"
 
     # Extend the PATH and do some basic configuring
-    ENV PATH=/fenics/bin:$PATH
-    ENV LD_LIBRARY_PATH=/fenics/lib:/fenics/lib64:$LD_LIBRARY_PATH    
+    ENV PATH=${FENICS_PREFIX}/bin:$PATH
+    ENV LD_LIBRARY_PATH=${FENICS_PREFIX}/lib:${FENICS_PREFIX}/lib64:$LD_LIBRARY_PATH    
     ENV PS1="SinglarityFEniCS:\w\$ "
     ENV LC_ALL=C.UTF-8
     ENV LANG=C.UTF-8
@@ -31,10 +33,10 @@ From: ubuntu:16.10
     # Extend the PYTHONPATH
     mkdir -p /usr/lib/python3/dist-packages
     mkdir -p /usr/lib/python2.7/dist-packages
-    echo /fenics/lib/python3.5/site-packages >> /usr/lib/python3/dist-packages/fenics.pth
-    echo /fenics/lib64/python3.5/site-packages >> /usr/lib/python3/dist-packages/fenics.pth
-    echo /fenics/lib/python2.7/site-packages >> /usr/lib/python2.7/dist-packages/fenics.pth
-    echo /fenics/lib64/python2.7/site-packages >> /usr/lib/python2.7/dist-packages/fenics.pth
+    echo ${FENICS_PREFIX}/lib/python3.5/site-packages >> /usr/lib/python3/dist-packages/fenics.pth
+    echo ${FENICS_PREFIX}/lib64/python3.5/site-packages >> /usr/lib/python3/dist-packages/fenics.pth
+    echo ${FENICS_PREFIX}/lib/python2.7/site-packages >> /usr/lib/python2.7/dist-packages/fenics.pth
+    echo ${FENICS_PREFIX}/lib64/python2.7/site-packages >> /usr/lib/python2.7/dist-packages/fenics.pth
 
     # Software versions to use
     ENV PETSC_VERSION=3.7.5
@@ -49,10 +51,6 @@ From: ubuntu:16.10
 
     apt-get -qq update
     apt-get -y --with-new-pkgs -o Dpkg::Options::="--force-confold" upgrade
-
-    #apt-get -y install curl
-    #curl -s https://packagecloud.io/install/repositories/github/git-lfs/script.deb.sh | bash
-    #apt-get -qq update
 
     apt-get -y install locales
     echo "C.UTF-8 UTF-8" > /etc/locale.gen
@@ -87,7 +85,12 @@ From: ubuntu:16.10
         man \
         wget \
         ccache \
-        bash-completion
+        bash-completion \
+        vim wget curl
+
+    #curl -s https://packagecloud.io/install/repositories/github/git-lfs/script.deb.sh | bash
+    #apt-get -qq update
+    #apt-get -y install git-lfs
     #git lfs install
 
     # Install Python environment
@@ -207,4 +210,7 @@ From: ubuntu:16.10
     done
     
     chmod a+rwX -R ${FENICS_PREFIX}
+
+%runscript
+    /bin/bash "$@"
 
