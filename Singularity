@@ -6,6 +6,7 @@ From: trlandet/fenics-dev
 
 %runscript
     echo "Welcome to the Singularity FEniCS dev container"
+    echo "FEniCS is installed for python2 and python3"
     export PS1="FEnarity \w> "
     export FENICS_PREFIX=${FENICS_PREFIX:-/opt}
     export FENICS_SRC_DIR=${FENICS_PREFIX}/src
