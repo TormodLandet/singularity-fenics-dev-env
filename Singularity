@@ -16,5 +16,5 @@ From: trlandet/fenics-dev
     export LD_LIBRARY_PATH=${FENICS_PREFIX}/lib:$LD_LIBRARY_PATH
     export MANPATH=${FENICS_PREFIX}/share/man:$MANPATH
     export CPATH=${FENICS_PREFIX}/include:$CPATH
-    exec /bin/bash "$@"
+    exec /bin/bash --norc -i "$@"
 

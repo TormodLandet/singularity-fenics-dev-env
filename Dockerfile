@@ -148,12 +148,14 @@ RUN pip2 install --no-cache-dir sympy && \
     pip2 install --no-cache-dir https://bitbucket.org/slepc/slepc4py/downloads/slepc4py-${SLEPC4PY_VERSION}.tar.gz && \
     pip3 install --no-cache-dir jupyter && \
     pip2 install --no-cache-dir ipython ipykernel && \
+    pip2 install --no-cache-dir h5py && \
     python2 -m ipykernel install --prefix=/usr/local && \
     pip3 install --no-cache-dir sympy && \
     pip3 install --no-cache-dir matplotlib && \
     pip3 install --no-cache-dir https://bitbucket.org/mpi4py/mpi4py/downloads/mpi4py-${MPI4PY_VERSION}.tar.gz && \
     pip3 install --no-cache-dir https://bitbucket.org/petsc/petsc4py/downloads/petsc4py-${PETSC4PY_VERSION}.tar.gz && \
     pip3 install --no-cache-dir https://bitbucket.org/slepc/slepc4py/downloads/slepc4py-${SLEPC4PY_VERSION}.tar.gz && \
+    pip3 install --no-cache-dir h5py && \
     wget -nc --quiet http://downloads.sourceforge.net/swig/swig-${SWIG_VERSION}.tar.gz -O swig-${SWIG_VERSION}.tar.gz && \
     tar -xf swig-${SWIG_VERSION}.tar.gz && \
     cd swig-${SWIG_VERSION} && \
