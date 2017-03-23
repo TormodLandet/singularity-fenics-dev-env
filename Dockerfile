@@ -185,7 +185,7 @@ RUN PYTHON2_SITE_DIR=$(python2 -c "import site; print(site.getsitepackages()[0])
             mkdir -p ${pckdir} && \
             cd ${pckdir} && \
             if [ ! -d .git ] ; then git clone https://bitbucket.org/fenics-project/${package}.git .; fi && \
-            rm -r build && mkdir build && \
+            rm -rf build && mkdir build && \
             cd build && \
             cmake ../ -DCMAKE_INSTALL_PREFIX=${FENICS_PREFIX} -DCMAKE_BUILD_TYPE=${FENICS_BUILD_TYPE} \
                   -Wno-dev -DPYTHON_EXECUTABLE:FILEPATH=$(which ${FENICS_PYTHON}) ${CMAKE_EXTRA_ARGS} && \
