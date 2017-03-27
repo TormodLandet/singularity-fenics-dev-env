@@ -1,5 +1,5 @@
 Bootstrap: docker
-From: trlandet/fenics-dev
+From: trlandet/fenics-dev:latest
 
 %post
     chmod a+rwX -R /opt
