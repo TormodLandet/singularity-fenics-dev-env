@@ -148,12 +148,14 @@ RUN pip2 install --no-cache-dir sympy && \
     pip2 install --no-cache-dir https://bitbucket.org/slepc/slepc4py/downloads/slepc4py-${SLEPC4PY_VERSION}.tar.gz && \
     pip3 install --no-cache-dir jupyter && \
     pip2 install --no-cache-dir ipython ipykernel && \
+    pip2 install --no-cache-dir h5py && \
     python2 -m ipykernel install --prefix=/usr/local && \
     pip3 install --no-cache-dir sympy && \
     pip3 install --no-cache-dir matplotlib && \
     pip3 install --no-cache-dir https://bitbucket.org/mpi4py/mpi4py/downloads/mpi4py-${MPI4PY_VERSION}.tar.gz && \
     pip3 install --no-cache-dir https://bitbucket.org/petsc/petsc4py/downloads/petsc4py-${PETSC4PY_VERSION}.tar.gz && \
     pip3 install --no-cache-dir https://bitbucket.org/slepc/slepc4py/downloads/slepc4py-${SLEPC4PY_VERSION}.tar.gz && \
+    pip3 install --no-cache-dir h5py && \
     wget -nc --quiet http://downloads.sourceforge.net/swig/swig-${SWIG_VERSION}.tar.gz -O swig-${SWIG_VERSION}.tar.gz && \
     tar -xf swig-${SWIG_VERSION}.tar.gz && \
     cd swig-${SWIG_VERSION} && \
@@ -161,37 +163,4 @@ RUN pip2 install --no-cache-dir sympy && \
     make && \
     make install && \
     rm -rf /tmp/*
-
-# Install FEniCS
-RUN PYTHON2_SITE_DIR=$(python2 -c "import site; print(site.getsitepackages()[0])") && \
-    PYTHON3_SITE_DIR=$(python3 -c "import site; print(site.getsitepackages()[0])") && \
-    PYTHON2_VERSION=$(python2 -c 'import sys; print(str(sys.version_info[0]) + "." + str(sys.version_info[1]))') && \
-    PYTHON3_VERSION=$(python3 -c 'import sys; print(str(sys.version_info[0]) + "." + str(sys.version_info[1]))') && \
-    echo "${FENICS_PREFIX}/lib/python$PYTHON2_VERSION/site-packages" >> $PYTHON2_SITE_DIR/fenics-user.pth && \
-    echo "${FENICS_PREFIX}/lib/python$PYTHON3_VERSION/site-packages" >> $PYTHON3_SITE_DIR/fenics-user.pth && \
-    export FENICS_BUILD_TYPE="${FENICS_BUILD_TYPE:-Release}"  && \
-    for FENICS_PYTHON in python2 python3; do \
-        export USE_PYTHON3=$(${FENICS_PYTHON} -c "import sys; print('OFF' if sys.version_info.major == 2 else 'ON')") && \
-        export CMAKE_EXTRA_ARGS="${CMAKE_EXTRA_ARGS} -DDOLFIN_USE_PYTHON3=${USE_PYTHON3}" && \
-        for package in fiat ufl dijitso instant ffc; do \
-            pckdir=${FENICS_SRC_DIR}/${package} && \
-            mkdir -p ${pckdir} && \
-            cd ${pckdir} && \
-            if [ ! -d .git ] ; then git clone https://bitbucket.org/fenics-project/${package}.git .; fi && \
-            ${FENICS_PYTHON} -m pip install --prefix=${FENICS_PREFIX} . ; \
-        done && \
-        for package in dolfin; do \
-            pckdir=${FENICS_SRC_DIR}/${package} && \
-            mkdir -p ${pckdir} && \
-            cd ${pckdir} && \
-            if [ ! -d .git ] ; then git clone https://bitbucket.org/fenics-project/${package}.git .; fi && \
-            rm -r build && mkdir build && \
-            cd build && \
-            cmake ../ -DCMAKE_INSTALL_PREFIX=${FENICS_PREFIX} -DCMAKE_BUILD_TYPE=${FENICS_BUILD_TYPE} \
-                  -Wno-dev -DPYTHON_EXECUTABLE:FILEPATH=$(which ${FENICS_PYTHON}) ${CMAKE_EXTRA_ARGS} && \
-            make && \
-            make install ; \
-        done ; \
-    done ; \
-    chmod a+rwX -R ${FENICS_PREFIX}
 

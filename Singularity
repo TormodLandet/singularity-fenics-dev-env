@@ -1,5 +1,5 @@
 Bootstrap: docker
-From: trlandet/fenics-dev
+From: trlandet/fenics-dev:latest
 
 %post
 chmod a+rwX -R /opt
@@ -16,5 +16,5 @@ export PATH=${FENICS_PREFIX}/bin:/usr/lib/ccache:$PATH
 export LD_LIBRARY_PATH=${FENICS_PREFIX}/lib:$LD_LIBRARY_PATH
 export MANPATH=${FENICS_PREFIX}/share/man:$MANPATH
 export CPATH=${FENICS_PREFIX}/include:$CPATH
-exec /bin/bash --rcfile /opt/bashrc "$@"
+exec /bin/bash --rcfile /opt/bashrc -i "$@"
 

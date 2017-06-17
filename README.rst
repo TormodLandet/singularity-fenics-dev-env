@@ -7,9 +7,21 @@ Based on the FEniCS docker images,
 https://bitbucket.org/fenics-project/docker
 
 See generated images here:
-https://singularity-hub.org/collections/91/
+https://singularity-hub.org/collections/94/
 based on
 https://hub.docker.com/r/trlandet/fenics-dev/
+
+
+How to rebuild
+----------------
+
+Some details so that I do not forget:
+First, push changes to the Dockerfile, then trigger a rebuild on docker
+hub. After this build is finished a new push must be made to trigger 
+generation of the singularity image. Remember to reenable the master 
+branch on singularity hub for automatic builds first. There does not
+seem to be a way to trigger builds manually yet.
+
 
 History
 -------
