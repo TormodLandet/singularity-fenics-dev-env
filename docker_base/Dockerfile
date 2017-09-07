@@ -2,7 +2,7 @@
 # based on base and dev-env images from
 # https://bitbucket.org/fenics-project/docker
 
-FROM phusion/baseimage:0.9.19
+FROM phusion/baseimage:0.9.22
 MAINTAINER Tormod Landet <tormod@landet.net>
 
 # Get Ubuntu updates
@@ -22,8 +22,8 @@ ENV LC_ALL=C.UTF-8 \
 WORKDIR /tmp
 
 # Environment variables
-ENV PETSC_VERSION=3.7.5 \
-    SLEPC_VERSION=3.7.3 \
+ENV PETSC_VERSION=3.7.6 \
+    SLEPC_VERSION=3.7.4 \
     SWIG_VERSION=3.0.12 \
     MPI4PY_VERSION=2.0.0 \
     PETSC4PY_VERSION=3.7.0 \
@@ -51,20 +51,21 @@ RUN apt-get -qq update && \
         git-lfs \
         libboost-filesystem-dev \
         libboost-iostreams-dev \
+        libboost-math-dev \
         libboost-program-options-dev \
         libboost-system-dev \
         libboost-thread-dev \
         libboost-timer-dev \
         libeigen3-dev \
         liblapack-dev \
-        libmpich-dev \
+        libopenmpi-dev \
         libopenblas-dev \
         libpcre3-dev \
-        libhdf5-mpich-dev \
+        libhdf5-openmpi-dev \
         libgmp-dev \
         libcln-dev \
         libmpfr-dev \
-        mpich \
+        openmpi-bin \
         nano \
         pkg-config \
         man \
@@ -107,24 +108,24 @@ RUN wget --quiet -nc http://ftp.mcs.anl.gov/pub/petsc/release-snapshots/petsc-li
     ./configure --COPTFLAGS="-O2" \
                 --CXXOPTFLAGS="-O2" \
                 --FOPTFLAGS="-O2" \
-                --with-blas-lib=/usr/lib/libopenblas.a --with-lapack-lib=/usr/lib/liblapack.a \
                 --with-c-support \
                 --with-debugging=0 \
                 --with-shared-libraries \
-                --download-suitesparse \
-                --download-scalapack \
+                --download-blacs \
+                --download-hypre \
                 --download-metis \
+                --download-mumps \
                 --download-parmetis \
                 --download-ptscotch \
-                --download-hypre \
-                --download-mumps \
-                --download-blacs \
+                --download-scalapack \
                 --download-spai \
-                --download-ml \
+                --download-suitesparse \
+                --download-superlu \
+                --download-superlu_dist \
                 --prefix=${FENICS_PREFIX} && \
-     make && \
-     make install && \
-     rm -rf /tmp/*
+    make && \
+    make install && \
+    rm -rf /tmp/*
 
 # Install SLEPc from source
 RUN wget -nc --quiet https://bitbucket.org/slepc/slepc/get/v${SLEPC_VERSION}.tar.gz -O slepc-${SLEPC_VERSION}.tar.gz && \
