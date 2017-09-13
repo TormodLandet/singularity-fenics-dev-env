@@ -25,6 +25,7 @@ WORKDIR /tmp
 ENV PETSC_VERSION=3.7.6 \
     SLEPC_VERSION=3.7.4 \
     SWIG_VERSION=3.0.12 \
+    PYBIND11_VERSION=2.2.0 \
     MPI4PY_VERSION=2.0.0 \
     PETSC4PY_VERSION=3.7.0 \
     SLEPC4PY_VERSION=3.7.0 \
@@ -161,6 +162,15 @@ RUN pip2 install --no-cache-dir sympy && \
     tar -xf swig-${SWIG_VERSION}.tar.gz && \
     cd swig-${SWIG_VERSION} && \
     ./configure --prefix=${FENICS_PREFIX} && \
+    make && \
+    make install && \
+    cd /tmp && \
+    wget -nc --quiet https://github.com/pybind/pybind11/archive/v${PYBIND11_VERSION}.tar.gz && \
+    tar -xf v${PYBIND11_VERSION}.tar.gz && \
+    cd pybind11-${PYBIND11_VERSION} && \
+    mkdir build && \
+    cd build && \
+    cmake -DPYBIND11_TEST=False ../ && \
     make && \
     make install && \
     rm -rf /tmp/*
