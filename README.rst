@@ -15,5 +15,3 @@ directory used as ``$HOME`` in Singularity (using the ``-H`` switch). Create
 a directory called ``fenics_src`` inside that home directory and run
 ``fenics-pull`` to download the latest versions of the FEniCS software to 
 ``fenics_src`` and then run ``fenics-build`` to build and install FEniCS.
-The ``fenics-*`` scripts can be found in the FEniCS Docker repository,
-https://bitbucket.org/fenics-project/docker/src/HEAD/dockerfiles/dev-env/bin/?at=master
