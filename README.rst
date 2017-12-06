@@ -1,33 +1,19 @@
-singularity-fenics-dev
-=============================
+Singularity images of FEniCS
+============================
 
-A Singularity image with the fenics-dev docker environment
-
-Based on the FEniCS docker images,
-https://bitbucket.org/fenics-project/docker
+Definition of a Singularity image based on the fenics-dev docker environment.
+Built on the FEniCS docker images, https://bitbucket.org/fenics-project/docker,
+but adds some usefull packages like gmsh, h5py, meshio and valgrind.
 
 See generated images here:
-https://singularity-hub.org/collections/94/
-based on
-https://hub.docker.com/r/trlandet/fenics-dev/
 
+* Singularity: https://www.singularity-hub.org/collections/338
+* Docker: https://hub.docker.com/r/trlandet/fenics-dev/
 
-How to rebuild
-----------------
-
-Some details so that I do not forget:
-First, push changes to the Dockerfile, then trigger a rebuild on docker
-hub. After this build is finished a new push must be made to trigger 
-generation of the singularity image. Remember to reenable the master 
-branch on singularity hub for automatic builds first. There does not
-seem to be a way to trigger builds manually yet.
-
-
-History
--------
-
-*2017-06-17* - Test with the new Singularity HUB builds with 2.3 
-builder
-
-*2017-03-22* - Working with Singularity 2.2.1, but not tested much,
-waiting for the 2.3 release that has built in support for shub
+The repository also contains a suggested ``.bashrc`` file to put in the
+directory used as ``$HOME`` in Singularity (using the ``-H`` switch). Create
+a directory called ``fenics_src`` inside that home directory and run
+``fenics-pull`` to download the latest versions of the FEniCS software to 
+``fenics_src`` and then run ``fenics-build`` to build and install FEniCS.
+The ``fenics-*`` scripts can be found in the FEniCS Docker repository,
+https://bitbucket.org/fenics-project/docker/src/HEAD/dockerfiles/dev-env/bin/?at=master
